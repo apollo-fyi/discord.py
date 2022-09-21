@@ -139,6 +139,7 @@ class Interaction(Generic[ClientT]):
         'guild_locale',
         'extras',
         'command_failed',
+        'raw_data',
         '_permissions',
         '_app_permissions',
         '_state',
@@ -174,6 +175,7 @@ class Interaction(Generic[ClientT]):
         self.channel_id: Optional[int] = utils._get_as_snowflake(data, 'channel_id')
         self.guild_id: Optional[int] = utils._get_as_snowflake(data, 'guild_id')
         self.application_id: int = int(data['application_id'])
+        self.raw_data: InteractionPayload = data
 
         self.locale: Locale = try_enum(Locale, data.get('locale', 'en-US'))
         self.guild_locale: Optional[Locale]
