@@ -647,6 +647,22 @@ class InteractionResponse(Generic[ClientT]):
             )
             self._response_type = InteractionResponseType(defer_type)
 
+    async def upsell(self):
+        adapter = async_context.get()
+        parent = self._parent
+        http = parent._state.http
+        params = interaction_response_params(InteractionResponseType.upsell.value)
+        await adapter.create_interaction_response(
+            parent.id,
+            parent.token,
+            session=parent._session,
+            proxy=http.proxy,
+            proxy_auth=http.proxy_auth,
+            params=params,
+        )
+        self._response_type = InteractionResponseType(InteractionResponseType.upsell)
+
+
     async def pong(self) -> None:
         """|coro|
 

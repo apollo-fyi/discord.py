@@ -574,6 +574,7 @@ class InteractionResponseType(Enum):
     message_update = 7  # for components
     autocomplete_result = 8
     modal = 9  # for modals
+    upsell = 10
 
 
 class VideoQualityMode(Enum):
