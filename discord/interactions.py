@@ -683,7 +683,7 @@ class InteractionResponse(Generic[ClientT]):
             proxy_auth=http.proxy_auth,
             params=params,
         )
-        self._response_type = InteractionResponseType(InteractionResponseType.upsell)
+        self._response_type = InteractionResponseType.upsell
 
 
     async def pong(self) -> None:
