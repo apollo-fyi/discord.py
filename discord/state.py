@@ -736,6 +736,7 @@ class ConnectionState(Generic[ClientT]):
 
     def parse_interaction_create(self, data: gw.InteractionCreateEvent) -> None:
         interaction = Interaction(data=data, state=self)
+        self.dispatch('interaction', interaction)
         if data['type'] in (2, 4) and self._command_tree:  # application command and auto complete
             self._command_tree._from_interaction(interaction)
         elif data['type'] == 3:  # interaction component
@@ -750,7 +751,6 @@ class ConnectionState(Generic[ClientT]):
             custom_id = inner_data['custom_id']
             components = inner_data['components']
             self._view_store.dispatch_modal(custom_id, interaction, components)
-        self.dispatch('interaction', interaction)
 
     def parse_presence_update(self, data: gw.PresenceUpdateEvent) -> None:
         guild_id = utils._get_as_snowflake(data, 'guild_id')
