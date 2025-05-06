@@ -470,6 +470,8 @@ class Guild(Hashable):
         self._from_data(data)
 
     def _add_channel(self, channel: GuildChannel, /) -> None:
+        if isinstance(channel, VoiceChannel):
+            pass
         self._channels[channel.id] = channel
 
     def _remove_channel(self, channel: Snowflake, /) -> None:
