@@ -473,7 +473,7 @@ class Guild(Hashable):
         print("Adding channel")
         if isinstance(channel, VoiceChannel):
             print("Skipping voice")
-            pass
+            return
         self._channels[channel.id] = channel
 
     def _remove_channel(self, channel: Snowflake, /) -> None:
