@@ -470,7 +470,9 @@ class Guild(Hashable):
         self._from_data(data)
 
     def _add_channel(self, channel: GuildChannel, /) -> None:
+        print("Adding channel")
         if isinstance(channel, VoiceChannel):
+            print("Skipping voice")
             pass
         self._channels[channel.id] = channel
 
