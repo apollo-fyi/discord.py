@@ -513,7 +513,7 @@ class ConnectionState(Generic[ClientT]):
     def add_dm_channel(self, data: DMChannelPayload) -> DMChannel:
         # self.user is *always* cached when this is called
         channel = DMChannel(me=self.user, state=self, data=data)  # type: ignore
-        self._add_private_channel(channel)
+        # self._add_private_channel(channel)
         return channel
 
     def _remove_private_channel(self, channel: PrivateChannel) -> None:
