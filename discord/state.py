@@ -409,7 +409,7 @@ class ConnectionState(Generic[ClientT]):
 
     def store_sticker(self, guild: Guild, data: GuildStickerPayload) -> GuildSticker:
         sticker_id = int(data['id'])
-        self._stickers[sticker_id] = sticker = GuildSticker(state=self, data=data)
+        sticker = GuildSticker(state=self, data=data)
         return sticker
 
     def store_view(self, view: View, message_id: Optional[int] = None, interaction_id: Optional[int] = None) -> None:
@@ -1172,17 +1172,7 @@ class ConnectionState(Generic[ClientT]):
         self.dispatch('guild_emojis_update', guild, before_emojis, guild.emojis)
 
     def parse_guild_stickers_update(self, data: gw.GuildStickersUpdateEvent) -> None:
-        guild = self._get_guild(int(data['guild_id']))
-        if guild is None:
-            _log.debug('GUILD_STICKERS_UPDATE referencing an unknown guild ID: %s. Discarding.', data['guild_id'])
-            return
-
-        before_stickers = guild.stickers
-        for emoji in before_stickers:
-            self._stickers.pop(emoji.id, None)
-
-        guild.stickers = tuple(map(lambda d: self.store_sticker(guild, d), data['stickers']))
-        self.dispatch('guild_stickers_update', guild, before_stickers, guild.stickers)
+        pass
 
     def parse_guild_audit_log_entry_create(self, data: gw.GuildAuditLogEntryCreate) -> None:
         guild = self._get_guild(int(data['guild_id']))

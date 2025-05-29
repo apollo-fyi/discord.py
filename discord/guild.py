@@ -602,11 +602,7 @@ class Guild(Hashable):
             if state.cache_guild_expressions
             else ()
         )
-        self.stickers: Tuple[GuildSticker, ...] = (
-            tuple(map(lambda d: state.store_sticker(self, d), guild.get('stickers', [])))
-            if state.cache_guild_expressions
-            else ()
-        )
+        self.stickers = ()
         self.features: List[GuildFeature] = guild.get('features', [])
         self._splash: Optional[str] = guild.get('splash')
         self._system_channel_id: Optional[int] = utils._get_as_snowflake(guild, 'system_channel_id')
@@ -3105,10 +3101,7 @@ class Guild(Hashable):
         payload['tags'] = emoji
 
         data = await self._state.http.create_guild_sticker(self.id, payload, file, reason)
-        if self._state.cache_guild_expressions:
-            return self._state.store_sticker(self, data)
-        else:
-            return GuildSticker(state=self._state, data=data)
+        return GuildSticker(state=self._state, data=data)
 
     async def delete_sticker(self, sticker: Snowflake, /, *, reason: Optional[str] = None) -> None:
         """|coro|
